@@ -7,12 +7,12 @@ let usuario = null;
 let socket = null;
 
 
-//Validar el tokebn del localstorage
+//Validar el token del localstorage
 
 const validarJWT = async () => {
 
     const token = localStorage.getItem('token') || '';
-    if (token.length <= 0) {
+    if (token.length <= 10) {
         window.location = 'index.html';
         throw new Error('No hay token en el servidor')
     }
@@ -22,10 +22,24 @@ const validarJWT = async () => {
     });
 
     const { usuario: userDB, token: tokenDB } = await resp.json();
-    /*
-        console.log(userDB, tokenDB); */
+    /*console.log(userDB, tokenDB); */
     localStorage.setItem('token', tokenDB);
     usuario = userDB;
+
+    document.title = usuario.nombre;
+
+    await conectarSocket();
+
+
+}
+
+const conectarSocket = async () => {
+
+    const socket = io({
+        'extraHeaders':{
+            'x-token': localStorage.getItem('token')
+        }
+    });
 }
 
 const main = async () => {
@@ -38,4 +52,4 @@ const main = async () => {
 main();
 
 
-/* const socket = io(); */
+/*  */

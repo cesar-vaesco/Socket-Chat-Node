@@ -27,6 +27,7 @@ miFormulario.addEventListener('submit', evento => {
                 return console.error(msg)
             }
             localStorage.setItem('token', token)
+            window.location= 'chat.html';
         })
         .catch(err => {
             console.log(err);
@@ -45,14 +46,17 @@ function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     const data = { id_token };
 
-    fetch(url, {
+    fetch(url + 'google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     })
         .then(resp => resp.json())
         /* .then((data) => console.log('Nuestro server', data)) */
-        .then(({ token }) => { localStorage.setItem('token', token) })
+        .then(({ token }) => {
+            localStorage.setItem('token', token);
+            window.location = 'chat.html';
+         })
         .catch(console.log);
 
 }

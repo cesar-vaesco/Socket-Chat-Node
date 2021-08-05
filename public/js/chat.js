@@ -8,7 +8,7 @@ let socket = null;
 
 
 //Referencias al HTML
-const txtIud = document.querySelector('#txtIud');
+const txtUid = document.querySelector('#txtUid');
 const txtMensaje = document.querySelector('#txtMensaje');
 const ulUsuarios = document.querySelector('#ulUsuarios');
 const ulMensajes = document.querySelector('#ulMensajes');
@@ -55,8 +55,8 @@ const conectarSocket = async () => {
         console.log('Socket OFFLine');
     });
 
-    socket.on('recibir-mensaje', () => {
-
+    socket.on('recibir-mensaje', (payload) => {
+        console.log(payload);
     });
 
     socket.on('usuarios-activos', dibujarUsuarios);
@@ -74,7 +74,7 @@ const dibujarUsuarios = (usuarios = []) => {
         userHtml += `
             <li>
                 <p>
-                    <h5 class="text-success">${ nombre }</h5>
+                    <h5 class="text-success">${nombre}</h5>
                     <span class="fs-6 text-muted">${uid}</span>
                 </p>
             </li>
@@ -83,6 +83,17 @@ const dibujarUsuarios = (usuarios = []) => {
 
     ulUsuarios.innerHTML = userHtml;
 }
+
+txtMensaje.addEventListener('keyup', ({ keyCode }) => {
+
+    const mensaje = txtMensaje.value;
+    const uid = txtUid.value;
+    if (keyCode !== 13) { return; }
+    if (mensaje.length === 0) { return; }
+
+    socket.emit('enviar-mensaje', { mensaje, uid });
+    txtMensaje.value = '';
+})
 
 const main = async () => {
 

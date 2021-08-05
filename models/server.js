@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
-const { server } = require('http');
+/* const { createServer } = require('http'); */
 
 
 require('colors');
@@ -81,7 +81,7 @@ class Server {
     }
 
     listen() {
-        this.app.listen( this.port, () => {
+        this.server.listen( this.port, () => {
             console.log(`\nServidor en línea - puerto(${this.port.green}) -  http://localhost:${this.port.green}`)
         });
     }

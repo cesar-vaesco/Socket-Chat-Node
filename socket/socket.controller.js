@@ -1,7 +1,7 @@
-const { Socket } = require('socket.io');
 
 
-const socketController = ( socket = new Socket ()) => {
+
+const socketController = ( socket ) => {
 
     console.log('Cliente conectado', socket.id);
 };

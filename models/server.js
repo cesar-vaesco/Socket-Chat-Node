@@ -82,7 +82,7 @@ class Server {
 
     listen() {
         this.server.listen( this.port, () => {
-            console.log(`\nServidor en línea - puerto(${this.port.green}) -  http://localhost:${this.port.green}`)
+            console.log('\nServidor' + ' en línea'.green + `\nPuerto: (${this.port.green})   \nURL: http://localhost:${this.port.green}`)
         });
     }
 

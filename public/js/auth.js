@@ -1,9 +1,37 @@
 
-console.log(window.location.hostname.includes('localhost'))
+const miFormulario = document.querySelector('form');
 
-var url = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/api/auth/google'
-    : 'https://restserver-curso-fher.herokuapp.com/api/auth/google';
+const url = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/auth/'
+    : 'https://restserver-curso-fher.herokuapp.com/api/auth/';
+
+miFormulario.addEventListener('submit', evento => {
+
+    evento.preventDefault();
+    const formData = {};
+
+    for (let elemento of miFormulario.elements) {
+        if (elemento.name.length > 0) {
+            formData[elemento.name] = elemento.value;
+        }
+    }
+
+    fetch(url + 'login', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' }
+    })
+        .then(resp => resp.json())
+        .then(({ msg, token }) => {
+            if (msg) {
+                return console.error(msg)
+            }
+            localStorage.setItem('token', token)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
 
 
 function onSignIn(googleUser) {
@@ -24,7 +52,7 @@ function onSignIn(googleUser) {
     })
         .then(resp => resp.json())
         /* .then((data) => console.log('Nuestro server', data)) */
-        .then(({ token }) => { localStorage.setItem( 'token', token )})
+        .then(({ token }) => { localStorage.setItem('token', token) })
         .catch(console.log);
 
 }

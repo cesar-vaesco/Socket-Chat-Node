@@ -7,7 +7,7 @@ class Mensaje {
 
         this.uid = uid;
         this.nombre = nombre;
-        this.mensae = mensaje;
+        this.mensaje = mensaje;
     }
 }
 
